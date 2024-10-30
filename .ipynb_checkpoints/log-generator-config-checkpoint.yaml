@@ -1,0 +1,70 @@
+# https://pypi.org/project/log-generator/
+name: Apache General Access
+file: /Users/yblee/VScode/python_practice/log.txt
+format: "{log_ip} | [{log_time}] \"{log_method} {log_path} HTTP/1.1\" {log_status} {log_bytes}"
+#format: "{log_ip},{log_time},{log_method},{log_path},{log_status},{log_bytes}"
+#format: "{log_ip},{user_id},{session_id},{server_ip},{log_time},{server_time},{response_time_ms},{log_method},{log_path} HTTP/1.1,{log_status},{user_agent},{log_bytes}"
+frequency:
+  seconds: 0.01
+offset:
+  seconds: 0
+jitter:
+  seconds: 5
+amount: 50000
+fields:
+  log_ip:
+    type: ip
+  server_ip:
+    type: ip
+  log_time:
+    type: timestamp
+    #    format: "%d/%b/%Y:%H:%M:%S"
+    format: "%Y-%b-%d %H:%M:%S"
+  server_time:
+    type: timestamp
+    #    format: "%d/%b/%Y:%H:%M:%S"
+    format: "%Y-%b-%d %H:%M:%S"
+  log_method:
+    type: enum
+    values: [POST, GET, PUT, PATCH, DELETE]
+  log_path:
+    type: enum
+    values:
+      - /auth
+      - /alerts
+      - /events
+      - /playbooks
+      - /lists
+      - /fieldsets
+      - /customers
+      - /collectors
+      - /parsers
+      - /users
+  log_status:
+    type: enum
+    values: [200, 201, 204, 300, 301, 400, 401, 403, 404, 500, 503]
+  log_bytes:
+    type: integer
+    min: 2000
+    max: 5000
+  user_agent:
+    type: enum
+    values:
+      - "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+      - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6)"
+  referrer:
+    type: enum
+    values:
+      - "https://example.com"
+      - "-"
+  response_time_ms:
+    type: integer
+    min: 100
+    max: 5000
+  user_id:
+    type: integer
+    min: 1000
+    max: 9999
+  session_id:
+    type: string
+    pattern: "[A-Za-z0-9]{10,30}"
